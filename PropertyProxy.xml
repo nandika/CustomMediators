@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<proxy name="PropertyProxy" startOnLoad="true" transports="http https" xmlns="http://ws.apache.org/ns/synapse">
+    <target>
+        <inSequence>
+            <class name="org.wso2.esb.sample.CustomRegistryMediator">
+                <property name="resourcePath" value="conf:/data/stop_proxy"/>
+                <property name="action" value="save"/>
+                <property name="resouceValue" value="true"/>
+            </class>
+            <property expression="get-property('registry', 'conf:/data/stop_proxy')" name="stop_proxy_property" scope="default" type="STRING"/>
+            <log level="custom">
+                <property expression="get-property('stop_proxy_property')" name="mylog"/>
+            </log>
+            <property name="OUT_ONLY" scope="default" type="STRING" value="true"/>
+            <property name="FORCE_SC_ACCEPTED" scope="axis2" type="STRING" value="true"/>
+            <drop/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </target>
+</proxy>
